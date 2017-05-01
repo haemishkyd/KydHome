@@ -1,7 +1,15 @@
 # KydHome Home Automation Project
 ## Introduction/Overview
-
+This is a project based around [Home Assitant](https://home-assistant.io/), ESP8266 devices, Micropython, Google Home and MQTT. To this point these are the technologies that have been involved, other technologies may be used in the future. Currently, through Home Assistant as a control interface, the project can:
+* Switch on/off various lights
+* Open/Close the gate of the house
+* Monitor the state of the house alarm (active zones as well as armed/diarmed status)
+* Monitor the state of the power coming into the house through an interface to the UPS
+* Monitor the temperature outside the house
 ## Home Assistant 
+Home Assistant is the main interface to the system as currently implemented. I am using the base installation and all that is configured as part of this project is the configuration file. 
+
+## MQTT
 
 ## ESP8266
 
