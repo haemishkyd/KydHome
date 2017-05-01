@@ -7,7 +7,11 @@ This is a project based around [Home Assitant](https://home-assistant.io/), ESP8
 * Monitor the state of the power coming into the house through an interface to the UPS
 * Monitor the temperature outside the house
 ## Home Assistant 
-Home Assistant is the main interface to the system as currently implemented. I am using the base installation and all that is configured as part of this project is the configuration file. 
+Home Assistant is the main interface to the system as currently implemented. I am using the base installation and all that is configured as part of this project is the configuration file. Features that are currently used:
+* MQTT Publish/Subscribe
+* Automation (switches are changed when the sun rises or sets)
+* Notifications through push bullet
+* REST API interface from IFTTT 
 
 ## MQTT
 
