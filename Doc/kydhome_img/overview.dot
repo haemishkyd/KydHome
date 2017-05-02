@@ -1,0 +1,27 @@
+digraph G {
+"Mosquitto MQTT Broker" [style=filled, fillcolor=red];
+"Home Assistant" [style=filled, fillcolor=turquoise];
+"Outside Light" [style=filled, fillcolor=yellow];
+"Outside Temperature" [style=filled, fillcolor=yellow];
+subgraph cluster_Gate_ESP {
+label="Gate ESP";
+"Gate Light" [style=filled, fillcolor=orange];
+"Gate Control" [style=filled, fillcolor=orange];
+}
+
+"UPS Power Monitor" [style=filled, fillcolor=green];
+"Solar Battery Monitor" [style=filled, fillcolor=purple];
+"The Internet" [style=filled, fillcolor=white];
+"Mosquitto MQTT Broker" -> "Home Assistant";
+"Home Assistant" -> "Mosquitto MQTT Broker";
+"Mosquitto MQTT Broker" -> "Outside Light";
+"Outside Light" -> "Mosquitto MQTT Broker";
+"Outside Temperature" -> "Mosquitto MQTT Broker";
+"UPS Power Monitor" -> "Mosquitto MQTT Broker";
+"Solar Battery Monitor" -> "Mosquitto MQTT Broker";
+"Mosquitto MQTT Broker" -> "Gate Light";
+"Gate Light" -> "Mosquitto MQTT Broker";
+"Mosquitto MQTT Broker" -> "Gate Control";
+"The Internet" -> "Home Assistant";
+"Home Assistant" -> "The Internet";
+}
