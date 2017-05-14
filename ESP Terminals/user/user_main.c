@@ -22,7 +22,7 @@ os_event_t    user_procTaskQueue[user_procTaskQueueLen];
 static volatile os_timer_t some_timer;
 unsigned char temp_string[50];
 MQTT_Client mqttClient;
-#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'  
+#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
 static unsigned char ParadoxMessageComplete = 0;
 #endif
 
@@ -48,9 +48,9 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
   static uint8_t state_machine = 0;
   static uint16_t event_timer = 0;
   uint8_t ret_val;
-#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'    
+#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
   uint8_t led_flag;
-#endif  
+#endif
   char mqtt_message[30];
   char mqtt_message_length;
   char alive_check = 0;
@@ -62,7 +62,7 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
   case 0:
     event_timer++;
     /* This 100 relates to 2 seconds since this function executes every 20ms */
-#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'    
+#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
     /* Check the message that comes in from the alarm */
     ParadoxMessageComplete = Paradox_Parse_Incoming_Message();
     if (ParadoxMessageComplete == 1)
@@ -82,7 +82,15 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
       }
       ParadoxMessageComplete = 0;
     }
-#endif    
+#endif
+#if HOME_AUTOMATION_OUTSIDE_TEMP == 'Y'
+    /* This 500 relates to 10 seconds since this function executes every 20ms */
+    if (event_timer > 500)
+    {
+      event_timer = 0;
+      state_machine = 1;
+    }
+#else    
     if (event_timer > 100)
     {
       event_timer = 0;
@@ -131,14 +139,7 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
       MQTT_Publish(&mqttClient, "homeassistant/sensor/frontoutsidelight/state", mqtt_message, mqtt_message_length, 0, 0);
 #endif
     }
-#if HOME_AUTOMATION_OUTSIDE_TEMP == 'Y'
-    /* This 500 relates to 10 seconds since this function executes every 20ms */
-    if (event_timer > 500)
-    {
-      event_timer = 0;
-      state_machine = 1;
-    }
-#endif
+#endif    
     break;
   case 1:
     ret_val = DS18B20_Read_Temp();
@@ -152,14 +153,17 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
     os_printf("Temp %d\n", temperature_int);
     strcpy(mqtt_message, "{\"temp\":");
     esp_itoa(temperature_int, &mqtt_message[8], 10);
-    strcpy(&mqtt_message[10], ",\"alive\":");
-    esp_itoa(alive_check++, &mqtt_message[19], 10);
-    if (alive_check > 99)
+    /* We can't measure anything under 0 or over 99 */
+    if (temperature_int > 9)
     {
-      alive_check = 0;
+      mqtt_message[10] = '}';
+      mqtt_message_length = 11;
     }
-    mqtt_message[21] = '}';
-    mqtt_message_length = 22;
+    else if (temperature_int < 10)
+    {
+      mqtt_message[9] = '}';
+      mqtt_message_length = 10;
+    }    
     MQTT_Publish(&mqttClient, "homeassistant/sensor/frontoutsidetemperature", mqtt_message, mqtt_message_length, 0, 0);
     state_machine = 0;
     break;
@@ -224,13 +228,13 @@ void ICACHE_FLASH_ATTR user_init()
   PIN_PULLUP_EN(PERIPHS_IO_MUX_GPIO4_U);
   GPIO_OUTPUT_SET(4, 1);
 #endif
-#if HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT == 'Y'  
+#if HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT == 'Y'
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO5_U, FUNC_GPIO5);
   GPIO_OUTPUT_SET(5, 1);
-#endif  
+#endif
 #if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
   Paradox_Init();
-#endif  
+#endif
 
 
   //connect wifi
@@ -285,11 +289,11 @@ static void connect_wifi()
   char password[64] = SSID_PASSWORD;
   struct station_config stationConf;
 
-#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'  
+#if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
   uart_init(BIT_RATE_9600, BIT_RATE_9600);
 #else
   uart_init(BIT_RATE_115200, BIT_RATE_115200);
-#endif  
+#endif
   wifi_set_opmode( STATION_MODE );
 
   //Set ap settings
@@ -360,7 +364,7 @@ static void ICACHE_FLASH_ATTR mqttConnectedCb(uint32_t *args)
   MQTT_Subscribe(client, "homeassistant/switch/gatelight/state", 0);
   MQTT_Subscribe(client, "homeassistant/switch/gateactual/state", 0);
 #endif
-#if HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT == 'Y'  
+#if HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT == 'Y'
   MQTT_Subscribe(client, "homeassistant/switch/frontoutsidelight/state", 0);
 #endif
 }

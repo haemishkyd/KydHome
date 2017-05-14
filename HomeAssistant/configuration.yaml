@@ -149,23 +149,19 @@ automation gate_day_switch:
 # Enables the frontend
 frontend:
 
+# Enables configuration UI
+config:
+
 http:
-  # Uncomment this to add a password (recommended!)
-  api_password: thisismypassword
+  api_password: !secret the_password
   ssl_certificate: /etc/letsencrypt/live/kydhome.dyndns.org/fullchain.pem
   ssl_key: /etc/letsencrypt/live/kydhome.dyndns.org/privkey.pem
-  # Uncomment this if you are using SSL or running in Docker etc
-  # base_url: example.duckdns.org:8123
 
 # Checks for available updates
 updater:
 
 # Discover some devices automatically
 discovery:
-
-# Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
-
 # Enables support for tracking state changes over time.
 history:
 
@@ -185,22 +181,11 @@ sensor weather:
       - pressure
       - humidity
 
-camera frontoutside:
-  - platform: local_file
-    file_path: /home/haemish/Projects/MarvinPython/HomeAssistant/current.jpg
-
-recorder:
-  db_url: mysql://root:empyrean69@127.0.0.1/home_assistant
-  
 alarm_control_panel:
   platform: mqtt
   name: "Armed Status"
   state_topic: "homeassistant/sensor/alarm/armed"  
   command_topic: "homeassistant/sensor/alarm/set"
-
-# Text to speech
-tts:
-  platform: google
 
 #outside light switch
 switch frontoutsidelight:
@@ -223,6 +208,9 @@ ifttt:
 
 mqtt:
   broker: 192.168.1.54
+
+recorder:
+  db_url: postgresql://postgres:empyrean69@192.168.1.54/homeassistant
 
 sensor powerstatus:
   platform:  mqtt
@@ -367,7 +355,6 @@ group:
     view: yes 
     name: Entertainment
     entities:
-      - group.security_grp   
       - group.google_home_grp   
   diagnostics_view:
     view: yes
@@ -381,10 +368,6 @@ group:
       - media_player.living_room_home
       - media_player.kydchromecast
       - media_player.bedroom
-  security_grp:
-    name: Security
-    entities:
-      - camera.local_file
   enviro_grp:
     name: YR Data
     entities:
@@ -432,6 +415,3 @@ group:
       - sensor.total_mqtt_messages_sent
       - sensor.mqtt_connections
       - sensor.mosquitto_uptime
-
-
-
