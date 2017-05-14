@@ -6,6 +6,7 @@ This is a project based around [Home Assitant](https://home-assistant.io/), ESP8
 * Monitor the state of the house alarm (active zones as well as armed/diarmed status)
 * Monitor the state of the power coming into the house through an interface to the UPS
 * Monitor the temperature outside the house
+* Monitor the voltage of a bank of solar charged batteries
 ### Overview Diagram
 ![KydHome Overview](/Doc/kydhome_img/overview.png)
 ## Home Assistant 
