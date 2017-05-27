@@ -12,16 +12,18 @@ CONFIG = {
     "topic": "homeassistant/sensor/powersystem/solarbat",
 }
 
-client = MQTTClient(CONFIG['client_id'], CONFIG['broker'])
-client.connect()
-print("Connected to {}".format(CONFIG['broker']))
-
 adc = machine.ADC(0)
 
 while True:
+    client = MQTTClient(CONFIG['client_id'], CONFIG['broker'])
+    client.connect()
+    print("Connected to {}".format(CONFIG['broker']))
     raw_val = adc.read()
     print ("Measured Voltage: {} mv".format(raw_val / 1.024))
+    # R2 - 1k ohm
+    # R1 - 22k ohm
     current_voltage = ((raw_val / 1024) * (R1 + R2)) / R2
     print ("Battery Voltage: {}V".format(current_voltage))
     client.publish(CONFIG['topic'], str(current_voltage))
+    client.disconnect()
     time.sleep(60)
