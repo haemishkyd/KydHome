@@ -21,8 +21,16 @@ Home Assistant is the main interface to the system as currently implemented. I a
 ## ESP8266
 
 ### Embdedded Bare Metal 
+Various terminals throughout the house are running on ESP8266 chips. The basic idea is that one code base is used for:
+* Outside Temperature Sensor
+* Outside Light Switch
+* Gate Light Switch
+* Gate Opener
 
 ### Micropython
+Micropython was created in 2013 by Damien George. Micropython started off being ported to a specific piece of hardware called the pyboard. Micropython has now been ported to run on many platforms. 
+The [Micropython website](https://micropython.org) is a good source of information.
+Refer to the [ESP Solar Battery Monitor](https://github.com/haemishkyd/KydHome/tree/master/ESP%20Solar%20Battery%20Monitor)section for more information on the setup and implmenentation of this.
 
 ## UPS Power Monitor
 
