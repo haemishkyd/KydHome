@@ -2,3 +2,5 @@
 ESP Terminals/build/
 
 ESP Terminals/firmware/
+
+HomeAssistant/secrets\.yaml
