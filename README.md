@@ -19,7 +19,6 @@ Home Assistant is the main interface to the system as currently implemented. I a
 ## MQTT
 
 ## ESP8266
-
 ### Embdedded Bare Metal 
 Various terminals throughout the house are running on ESP8266 chips. The basic idea is that one code base is used for:
 * Outside Temperature Sensor
@@ -30,10 +29,10 @@ Various terminals throughout the house are running on ESP8266 chips. The basic i
 ### Micropython
 Micropython was created in 2013 by Damien George. Micropython started off being ported to a specific piece of hardware called the pyboard. Micropython has now been ported to run on many platforms. 
 The [Micropython website](https://micropython.org) is a good source of information.
-Refer to the [ESP Solar Battery Monitor](https://github.com/haemishkyd/KydHome/tree/master/ESP%20Solar%20Battery%20Monitor)section for more information on the setup and implmenentation of this.
+Refer to the [ESP Solar Battery Monitor](https://github.com/haemishkyd/KydHome/tree/master/ESP%20Solar%20Battery%20Monitor) section for more information on the setup and implmenentation of this.
 
 ## UPS Power Monitor
-
+This is a simple python script that uses the linux program [UPSC](https://linux.die.net/man/8/upsc) to query a UPS. The UPS provides a wealth of information on the state of the mains power in your home/office. I extract the data that I want using standard regular expressions in python. I then use the [Paho MQTT](https://pypi.python.org/pypi/paho-mqtt/1.1) module to publish this status to the MQTT broker.
 ## Hardware Discussion
 
 ## Google Home Integration
