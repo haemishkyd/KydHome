@@ -35,6 +35,10 @@ node_h = pydot.Node("Solar Battery Monitor",
 node_i = pydot.Node("The Internet",
                     style="filled", fillcolor="white")
 
+# Universal Remote Control
+node_j = pydot.Node("Universal Remote",
+                    style="filled", fillcolor="green")
+
 # now we add the nodes to the graph
 graph.add_node(node_a)
 graph.add_node(node_b)
@@ -50,6 +54,8 @@ graph.add_node(node_g)
 graph.add_node(node_h)
 
 graph.add_node(node_i)
+
+graph.add_node(node_j)
 
 # Home assistant subscribes and publishes
 graph.add_edge(pydot.Edge(node_a, node_b))
@@ -71,6 +77,8 @@ graph.add_edge(pydot.Edge(node_a, node_f))
 
 graph.add_edge(pydot.Edge(node_i, node_b))
 graph.add_edge(pydot.Edge(node_b, node_i))
+
+graph.add_edge(pydot.Edge(node_a, node_j))
 
 graph.write_raw('kydhome_img/overview.dot')
 # and we are done

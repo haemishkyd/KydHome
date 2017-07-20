@@ -12,6 +12,7 @@ label="Gate ESP";
 "UPS Power Monitor" [style=filled, fillcolor=green];
 "Solar Battery Monitor" [style=filled, fillcolor=purple];
 "The Internet" [style=filled, fillcolor=white];
+"Universal Remote" [style=filled, fillcolor=green];
 "Mosquitto MQTT Broker" -> "Home Assistant";
 "Home Assistant" -> "Mosquitto MQTT Broker";
 "Mosquitto MQTT Broker" -> "Outside Light";
@@ -24,4 +25,5 @@ label="Gate ESP";
 "Mosquitto MQTT Broker" -> "Gate Control";
 "The Internet" -> "Home Assistant";
 "Home Assistant" -> "The Internet";
+"Mosquitto MQTT Broker" -> "Universal Remote";
 }
