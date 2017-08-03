@@ -22,127 +22,7 @@ homeassistant:
     sensor.yr_symbol:
       friendly_name: Weather Symbol
 
-automation alarmarmedstatus:
-  alias: 'Alarm Armed Notification'
-  hide_entity: True
-  trigger:
-    platform: state
-    entity_id: alarm_control_panel.armed_status 
-    state: 'armed_away'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "The alarm has been armed."
-      title: "Alarm"
-      
-automation alarmdisarmedstatus:
-  alias: 'Alarm Disarmed Notification'
-  hide_entity: True
-  trigger:
-    platform: state
-    entity_id: alarm_control_panel.armed_status 
-    state: 'disarmed'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "The alarm has been disarmed."
-      title: "Alarm"
-
-automation frontgaragealarm:
-  alias: 'Alarm Cottage Entrance Notification'
-  hide_entity: False
-  trigger:
-    platform: state
-    entity_id: sensor.alarm_cottage_entrance
-    state: '1'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "The cottage zone has been triggered."
-      title: "Alarm"
-
-automation frontgardenalarm:
-  alias: 'Alarm Front Garden Notification'
-  hide_entity: False
-  trigger:
-    platform: state
-    entity_id: sensor.alarm_front_garden
-    state: '1'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "The front garden zone has been triggered."
-      title: "Alarm"
-
-automation backgardenalarm:
-  alias: 'Alarm Back Garden Notification'
-  hide_entity: False
-  trigger:
-    platform: state
-    entity_id: sensor.alarm_back_garden
-    state: '1'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "The back garden zone has been triggered."
-      title: "Alarm"
-
-automation powerfailurealarm:
-  alias: 'Power Failure Notification'
-  hide_entity: True
-  trigger:
-    platform: state
-    entity_id: sensor.power_status 
-    state: 'PF'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "There has been a power failure."
-      title: "Power State"
-
-automation powerrestorealarm:
-  alias: 'Power Failure Notification'
-  hide_entity: True
-  trigger:
-    platform: state
-    entity_id: sensor.power_status 
-    state: 'PG'   
-  action:
-    service: notify.alarmstatusnotifier
-    data:
-      message: "The power has been restored."
-      title: "Power State"
-
-automation gate_reset:
-  alias: 'Reset the gate switch'
-  trigger:
-    platform: state
-    entity_id: switch.gate_actual
-    to: 'on'
-    for:
-      seconds: 10
-  action:
-    service: homeassistant.turn_off
-    entity_id: switch.gate_actual
-
-automation gate_night_switch:
-  trigger:
-    platform: sun
-    # Possible values: sunset, sunrise
-    event: sunset
-  action:
-    service: homeassistant.turn_on
-    entity_id: switch.gate_light
-
-automation gate_day_switch:
-  trigger:
-    platform: sun
-    # Possible values: sunset, sunrise
-    event: sunrise
-  action:
-    service: homeassistant.turn_off
-    entity_id: switch.gate_light    
-
+automation: !include automations.yaml 
 # Show links to resources in log and frontend
 #introduction:
 
@@ -187,21 +67,20 @@ alarm_control_panel:
   state_topic: "homeassistant/sensor/alarm/armed"  
   command_topic: "homeassistant/sensor/alarm/set"
 
-#outside light switch
-switch frontoutsidelight:
-  platform: mqtt
-  name: "Front Outside Light"
-  command_topic: "homeassistant/switch/frontoutsidelight/state"
-
-switch gatelight:
-  platform: mqtt
-  name: "Gate Light"
-  command_topic: "homeassistant/switch/gatelight/state"
-
-switch gateactual:
-  platform: mqtt
-  name: "Gate Actual"
-  command_topic: "homeassistant/switch/gateactual/state"  
+switch: !include switches.yaml
+sensor: !include sensor.yaml
+input_select:
+  entertainment_system_volume:
+    name: Entertainment System Volume
+    options:
+      - 'Up+++'
+      - 'Up++'
+      - 'Up+'
+      - 'Nothing'      
+      - 'Down-'
+      - 'Down--'
+      - 'Down---'
+    initial: 'Nothing'
 
 ifttt:
   key: dUhm_MDfeHCOw2yJROuiXh
@@ -210,208 +89,12 @@ mqtt:
   broker: 192.168.1.54
 
 recorder:
-  db_url: postgresql://postgres:empyrean69@192.168.1.54/homeassistant
-
-sensor powerstatus:
-  platform:  mqtt
-  name: "Power Status"
-  state_topic: "homeassistant/sensor/powersystem/powerstatus"  
-
-sensor batterypercent:
-  platform:  mqtt
-  name: "Battery Level"
-  unit_of_measurement: "%"
-  state_topic: "homeassistant/sensor/powersystem/powerpercent"
-
-sensor inputvoltage:
-  platform:  mqtt
-  name: "Input Voltage"
-  unit_of_measurement: "V"
-  state_topic: "homeassistant/sensor/powersystem/inputvoltage"
-
-sensor ouputvoltage:
-  platform:  mqtt
-  name: "Output Voltage"
-  unit_of_measurement: "V"
-  state_topic: "homeassistant/sensor/powersystem/outputvoltage"  
-
-sensor frontoutsidetemperature:
-  platform: mqtt
-  name: "Front Outside Temperature"
-  state_topic: "homeassistant/sensor/frontoutsidetemperature"
-  unit_of_measurement: "ºC"
-  value_template: '{{ value_json.temp }}'  
-
-sensor gatelightconfirm:
-  platform: mqtt
-  name: "Gate Light"
-  state_topic: "homeassistant/sensor/gatelight/state"
-  value_template: '{{ value_json.state }}'
-
-sensor frontoutsidelightconfirm:
-  platform: mqtt
-  name: "Front Outside Light"
-  state_topic: "homeassistant/sensor/frontoutsidelight/state"
-  value_template: '{{ value_json.state }}'  
-
-sensor diagmessagesreceived:
-  platform: mqtt
-  name: "Total MQTT Messages Received"
-  state_topic: "$SYS/broker/messages/received"  
-
-sensor diagmessagessent:
-  platform: mqtt
-  name: "Total MQTT Messages Sent"
-  state_topic: "$SYS/broker/messages/sent"  
-
-sensor diagconnectiondata:
-  platform: mqtt
-  name: "MQTT Connections"
-  state_topic: "$SYS/broker/clients/active"
-
-sensor diaguptime:
-  platform: mqtt
-  name: "Mosquitto Uptime"
-  state_topic: "$SYS/broker/uptime"
-
-sensor studycameronroom:
-  platform: mqtt
-  name: "Alarm Study/Cameron Room"
-  state_topic: "homeassistant/sensor/alarm/zone/1"
-  value_template: '{{value_json.state}}'
-
-sensor maindbkkroom:
-  platform: mqtt
-  name: "Alarm Main/DBKK Room"
-  state_topic: "homeassistant/sensor/alarm/zone/2"
-  value_template: '{{value_json.state}}'
-
-sensor loungediningroom:
-  platform: mqtt
-  name: "Alarm Loung/Dining Room"
-  state_topic: "homeassistant/sensor/alarm/zone/3"
-  value_template: '{{value_json.state}}'
-
-sensor alarmdoors:
-  platform: mqtt
-  name: "Alarm Doors"
-  state_topic: "homeassistant/sensor/alarm/zone/5"
-  value_template: '{{value_json.state}}'
-
-sensor backgarden:
-  platform: mqtt
-  name: "Alarm Back Garden"
-  state_topic: "homeassistant/sensor/alarm/zone/6"
-  value_template: '{{value_json.state}}'
-
-sensor cottageentrance:
-  platform: mqtt
-  name: "Alarm Cottage Entrance"
-  state_topic: "homeassistant/sensor/alarm/zone/7"
-  value_template: '{{value_json.state}}'
-
-sensor frontgarden:
-  platform: mqtt
-  name: "Alarm Front Garden"
-  state_topic: "homeassistant/sensor/alarm/zone/8"
-  value_template: '{{value_json.state}}'
-
-sensor solarbatvoltage:
-  platform:  mqtt
-  name: "Solar Battery Voltage"
-  unit_of_measurement: "V"
-  state_topic: "homeassistant/sensor/powersystem/solarbat"  
+  purge_days: 60
+  db_url: mysql://root:empyrean69@192.168.1.54/homeassistant
 
 notify:
   name: alarmstatusnotifier
   platform: pushbullet
   api_key: o.RXa6SLEp5XVVrNVRGWFCIngie3h7PeMj
 
-group:
-  ###Views  
-  default_view:
-    view: yes
-    entities:
-      - sun.sun
-      - sensor.front_outside_temperature
-      - alarm_control_panel.armed_status
-      - sensor.power_status
-      - sensor.gate_light
-      - sensor.front_outside_light
-      - group.main_switches_grp
-  alarm_view:
-    view: yes
-    name: Alarm
-    entities:
-      - group.beam_enable_grp
-      - group.alarm_zones_grp
-  enviro_view:
-    view: yes
-    name: Environment
-    entities:
-      - group.enviro_grp
-      - group.power_grp
-  entertainment_view:
-    view: yes 
-    name: Entertainment
-    entities:
-      - group.google_home_grp   
-  diagnostics_view:
-    view: yes
-    name: Diagnostics
-    entities:
-      - group.diagnostics_grp
-  ####Groups
-  google_home_grp:
-    name: Lounge    
-    entities:
-      - media_player.living_room_home
-      - media_player.kydchromecast
-      - media_player.bedroom
-  enviro_grp:
-    name: YR Data
-    entities:
-      - sensor.yr_humidity
-      - sensor.yr_precipitation
-      - sensor.yr_pressure
-      - sensor.yr_symbol
-      - sensor.yr_temperature
-  power_grp:
-    name: Home Power Status
-    entities:
-      - sensor.battery_level
-      - sensor.input_voltage
-      - sensor.output_voltage
-      - sensor.power_status
-      - sensor.solar_battery_voltage
-  beam_enable_grp:
-    name: Beam Enable
-    entities:
-      - automation.alarm_back_garden_notification
-      - automation.alarm_cottage_entrance_notification
-      - automation.alarm_front_garden_notification      
-  alarm_zones_grp:
-    name: Zone Monitor
-    entities:
-      - sensor.alarm_studycameron_room  
-      - sensor.alarm_maindbkk_room
-      - sensor.alarm_loungdining_room
-      - sensor.alarm_doors
-      - sensor.alarm_back_garden
-      - sensor.alarm_cottage_entrance
-      - sensor.alarm_front_garden
-  main_switches_grp:
-    name: Main Switches
-    control: hidden
-    entities:
-      - switch.front_outside_light
-      - switch.gate_light
-      - switch.gate_actual
-  diagnostics_grp:
-    name: MQTT Diagnostics
-    control: hidden
-    entities:
-      - sensor.total_mqtt_messages_received
-      - sensor.total_mqtt_messages_sent
-      - sensor.mqtt_connections
-      - sensor.mosquitto_uptime
+group: !include groups.yaml

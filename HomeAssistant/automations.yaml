@@ -1,0 +1,178 @@
+- id: alarmarmedstatus
+  alias: 'Alarm Armed Notification'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.armed_status 
+    state: 'armed_away'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "The alarm has been armed."
+      title: "Alarm"
+      
+- id: alarmdisarmedstatus
+  alias: 'Alarm Disarmed Notification'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.armed_status 
+    state: 'disarmed'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "The alarm has been disarmed."
+      title: "Alarm"
+
+- id: frontgaragealarm
+  alias: 'Alarm Cottage Entrance Notification'
+  hide_entity: False
+  trigger:
+    platform: state
+    entity_id: sensor.alarm_cottage_entrance
+    state: '1'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "The cottage zone has been triggered."
+      title: "Alarm"
+
+- id: frontgardenalarm
+  alias: 'Alarm Front Garden Notification'
+  hide_entity: False
+  trigger:
+    platform: state
+    entity_id: sensor.alarm_front_garden
+    state: '1'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "The front garden zone has been triggered."
+      title: "Alarm"
+
+- id: backgardenalarm
+  alias: 'Alarm Back Garden Notification'
+  hide_entity: False
+  trigger:
+    platform: state
+    entity_id: sensor.alarm_back_garden
+    state: '1'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "The back garden zone has been triggered."
+      title: "Alarm"
+
+- id: powerfailurealarm
+  alias: 'Power Failure Notification'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: sensor.power_status 
+    state: 'PF'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "There has been a power failure."
+      title: "Power State"
+
+- id: powerrestorealarm
+  alias: 'Power Failure Notification'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: sensor.power_status 
+    state: 'PG'   
+  action:
+    service: notify.alarmstatusnotifier
+    data:
+      message: "The power has been restored."
+      title: "Power State"
+
+- id: gate_reset
+  alias: 'Reset the gate switch'
+  trigger:
+    platform: state
+    entity_id: switch.gate_actual
+    to: 'on'
+    for:
+      seconds: 10
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.gate_actual
+
+- id: gate_night_switch
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunset
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.gate_light
+
+- id: gate_day_switch
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.gate_light   
+
+- id: volume_control_trigger
+  trigger:
+    platform: state
+    entity_id: input_select.entertainment_system_volume
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: "homeassistant/entertainment/system/volume"
+      retain: true            
+      payload: >
+        {% if is_state("input_select.entertainment_system_volume", "Up+++") %}
+          UP_T
+        {%-elif is_state("input_select.entertainment_system_volume", "Up++") %}
+          UP_D
+        {%-elif is_state("input_select.entertainment_system_volume", "Up+") %}
+          UP_S
+        {%-elif is_state("input_select.entertainment_system_volume", "Down-") %}
+          DOWN_S
+        {%-elif is_state("input_select.entertainment_system_volume", "Down--") %}
+          DOWN_D
+        {%-elif is_state("input_select.entertainment_system_volume", "Down---") %}
+          DOWN_T
+        {%-elif is_state("input_select.entertainment_system_volume", "Nothing") %}
+          NONE
+        {% else %}
+          NONE
+        {% endif %}
+
+- id: volume_reset
+  alias: 'Reset the Volume Adjust'
+  trigger:
+    platform: state
+    entity_id: input_select.entertainment_system_volume
+  action:
+    - delay: '00:00:05'
+    - service: input_select.select_option
+      entity_id: input_select.entertainment_system_volume
+      data_template:
+          option: 'Nothing'
+
+- id: outside_light_night_switch
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunset
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.front_outside_light
+
+- id: outside_light_day_switch
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.front_outside_light

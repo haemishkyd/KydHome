@@ -1,0 +1,20 @@
+#outside light switch
+  - platform: mqtt
+    name: "Front Outside Light"
+    command_topic: "homeassistant/switch/frontoutsidelight/state"
+
+  - platform: mqtt
+    name: "Gate Light"
+    command_topic: "homeassistant/switch/gatelight/state"
+
+  - platform: mqtt
+    name: "Gate Actual"
+    command_topic: "homeassistant/switch/gateactual/state" 
+
+  - platform: mqtt
+    name: "Entertainment System Power"
+    command_topic: "homeassistant/entertainment/system/power" 
+
+  - platform: mqtt
+    name: "Entertainment System On Sat Off DVD"
+    command_topic: "homeassistant/entertainment/system/streaming" 

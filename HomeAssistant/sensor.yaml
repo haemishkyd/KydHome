@@ -1,0 +1,102 @@
+  - platform:  mqtt
+    name: "Power Status"
+    state_topic: "homeassistant/sensor/powersystem/powerstatus"  
+
+  - platform:  mqtt
+    name: "Battery Level"
+    unit_of_measurement: "%"
+    state_topic: "homeassistant/sensor/powersystem/powerpercent"
+
+  - platform:  mqtt
+    name: "Input Voltage"
+    unit_of_measurement: "V"
+    state_topic: "homeassistant/sensor/powersystem/inputvoltage"
+
+  - platform:  mqtt
+    name: "Output Voltage"
+    unit_of_measurement: "V"
+    state_topic: "homeassistant/sensor/powersystem/outputvoltage"  
+
+  - platform: mqtt
+    name: "Front Outside Temperature"
+    state_topic: "homeassistant/sensor/frontoutsidetemperature"
+    unit_of_measurement: "ºC"
+    value_template: '{{ value_json.temp }}'  
+
+  - platform: mqtt
+    name: "Gate Light"
+    state_topic: "homeassistant/sensor/gatelight/state"
+    value_template: '{{ value_json.state }}'
+
+  - platform: mqtt
+    name: "Front Outside Light"
+    state_topic: "homeassistant/sensor/frontoutsidelight/state"
+    value_template: '{{ value_json.state }}'  
+
+  - platform: mqtt
+    name: "Total MQTT Messages Received"
+    state_topic: "$SYS/broker/messages/received"  
+
+  - platform: mqtt
+    name: "Total MQTT Messages Sent"
+    state_topic: "$SYS/broker/messages/sent"  
+
+  - platform: mqtt
+    name: "MQTT Connections"
+    state_topic: "$SYS/broker/clients/active"
+
+  - platform: mqtt
+    name: "Mosquitto Uptime"
+    state_topic: "$SYS/broker/uptime"
+
+  - platform: mqtt
+    name: "Alarm Study/Cameron Room"
+    state_topic: "homeassistant/sensor/alarm/zone/1"
+    value_template: '{{value_json.state}}'
+
+  - platform: mqtt
+    name: "Alarm Main/DBKK Room"
+    state_topic: "homeassistant/sensor/alarm/zone/2"
+    value_template: '{{value_json.state}}'
+
+  - platform: mqtt
+    name: "Alarm Loung/Dining Room"
+    state_topic: "homeassistant/sensor/alarm/zone/3"
+    value_template: '{{value_json.state}}'
+
+  - platform: mqtt
+    name: "Alarm Doors"
+    state_topic: "homeassistant/sensor/alarm/zone/5"
+    value_template: '{{value_json.state}}'
+
+  - platform: mqtt
+    name: "Alarm Back Garden"
+    state_topic: "homeassistant/sensor/alarm/zone/6"
+    value_template: '{{value_json.state}}'
+
+  - platform: mqtt
+    name: "Alarm Cottage Entrance"
+    state_topic: "homeassistant/sensor/alarm/zone/7"
+    value_template: '{{value_json.state}}'
+
+  - platform: mqtt
+    name: "Alarm Front Garden"
+    state_topic: "homeassistant/sensor/alarm/zone/8"
+    value_template: '{{value_json.state}}'
+
+  - platform:  mqtt
+    name: "Solar Battery Voltage"
+    unit_of_measurement: "V"
+    state_topic: "homeassistant/sensor/powersystem/solarbat"  
+
+  - platform: cert_expiry
+    name: "Certificate Expiry"
+    host: https://kydhome.dyndns.org
+
+  - platform: systemmonitor
+    name: "System Monitor"  
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: since_last_boot
+      - type: processor_use

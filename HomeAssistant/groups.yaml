@@ -1,0 +1,103 @@
+###Views  
+  default_view:
+    view: yes
+    entities:
+      - sun.sun
+      - sensor.front_outside_temperature
+      - alarm_control_panel.armed_status
+      - sensor.power_status
+      - sensor.gate_light
+      - sensor.front_outside_light
+      - group.main_switches_grp
+  alarm_view:
+    view: yes
+    name: Alarm
+    entities:
+      - group.beam_enable_grp
+      - group.alarm_zones_grp
+  enviro_view:
+    view: yes
+    name: Environment
+    entities:
+      - group.enviro_grp
+      - group.power_grp
+  entertainment_view:
+    view: yes 
+    name: Entertainment
+    entities:
+      - group.google_home_grp
+      - group.entertainment_centre_group
+  diagnostics_view:
+    view: yes
+    name: Diagnostics
+    entities:
+      - group.diagnostics_grp
+      - group.pine_diag_grp
+  ####Groups
+  entertainment_centre_group:
+    name: Entertainment Centre
+    entities:
+      - switch.entertainment_system_power   
+      - switch.entertainment_system_on_sat_off_dvd
+      - input_select.entertainment_system_volume
+  google_home_grp:
+    name: Lounge    
+    entities:
+      - media_player.living_room_home
+      - media_player.kydchromecast
+      - media_player.bedroom
+  enviro_grp:
+    name: YR Data
+    entities:
+      - sensor.yr_humidity
+      - sensor.yr_precipitation
+      - sensor.yr_pressure
+      - sensor.yr_symbol
+      - sensor.yr_temperature
+  power_grp:
+    name: Home Power Status
+    entities:
+      - sensor.battery_level
+      - sensor.input_voltage
+      - sensor.output_voltage
+      - sensor.power_status
+      - sensor.solar_battery_voltage
+  beam_enable_grp:
+    name: Beam Enable
+    entities:
+      - automation.alarm_back_garden_notification
+      - automation.alarm_cottage_entrance_notification
+      - automation.alarm_front_garden_notification      
+  alarm_zones_grp:
+    name: Zone Monitor
+    entities:
+      - sensor.alarm_studycameron_room  
+      - sensor.alarm_maindbkk_room
+      - sensor.alarm_loungdining_room
+      - sensor.alarm_doors
+      - sensor.alarm_back_garden
+      - sensor.alarm_cottage_entrance
+      - sensor.alarm_front_garden
+  main_switches_grp:
+    name: Main Switches
+    control: hidden
+    entities:
+      - switch.front_outside_light
+      - switch.gate_light
+      - switch.gate_actual
+  diagnostics_grp:
+    name: MQTT Diagnostics
+    control: hidden
+    entities:
+      - sensor.total_mqtt_messages_received
+      - sensor.total_mqtt_messages_sent
+      - sensor.mqtt_connections
+      - sensor.mosquitto_uptime
+  pine_diag_grp:
+    name: Hardware Diagnostics
+    control: hidden
+    entities:
+      - sensor.certificate_expiry
+      - sensor.disk_use_
+      - sensor.cpu_use
+      - sensor.since_last_boot 
