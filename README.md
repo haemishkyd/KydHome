@@ -9,6 +9,11 @@ This is a project based around [Home Assitant](https://home-assistant.io/), ESP8
 * Monitor the voltage of a bank of solar charged batteries
 ### Overview Diagram
 ![KydHome Overview](/Doc/kydhome_img/overview.png)
+* Arrows: The commmunications backbone of the system is MQTT.
+* Yellow: ESP8266 Modules - Embedded C
+* Purple: ESP8266 Module  - Micropython
+* Green: Python scripts running on Raspberry Pi or PC
+* 
 ## Home Assistant 
 Home Assistant is the main interface to the system as currently implemented. I am using the base installation and all that is configured as part of this project is the configuration file. Features that are currently used:
 * MQTT Publish/Subscribe
@@ -16,23 +21,30 @@ Home Assistant is the main interface to the system as currently implemented. I a
 * Notifications through push bullet
 * REST API interface from IFTTT 
 
+**Refer to the [HomeAssistant](https://github.com/haemishkyd/KydHome/tree/master/HomeAssistant) for more information on the setup of Home Assistant.**
+
 ## MQTT
 
 ## ESP8266
-### Embdedded Bare Metal 
+### Embdedded C on an ESP8266
 Various terminals throughout the house are running on ESP8266 chips. The basic idea is that one code base is used for:
 * Outside Temperature Sensor
 * Outside Light Switch
 * Gate Light Switch
 * Gate Opener
 
-### Micropython
+**Refer to the [ESP Terminals](https://github.com/haemishkyd/KydHome/tree/master/ESP%20Terminals) section for more information on the setup and implmenentation of this.**
+
+### Micropython on an ESP8266
 Micropython was created in 2013 by Damien George. Micropython started off being ported to a specific piece of hardware called the pyboard. Micropython has now been ported to run on many platforms. 
 The [Micropython website](https://micropython.org) is a good source of information.
-Refer to the [ESP Solar Battery Monitor](https://github.com/haemishkyd/KydHome/tree/master/ESP%20Solar%20Battery%20Monitor) section for more information on the setup and implmenentation of this.
 
-## UPS Power Monitor
+**Refer to the [ESP Solar Battery Monitor](https://github.com/haemishkyd/KydHome/tree/master/ESP%20Solar%20Battery%20Monitor) section for more information on the setup and implmenentation of this.**
+
+## Python Scripts
+### UPS Power Monitor on a connected PC
 This is a simple python script that uses the linux program [UPSC](https://linux.die.net/man/8/upsc) to query a UPS. The UPS provides a wealth of information on the state of the mains power in your home/office. I extract the data that I want using standard regular expressions in python. I then use the [Paho MQTT](https://pypi.python.org/pypi/paho-mqtt/1.1) module to publish this status to the MQTT broker.
-## Hardware Discussion
+
+### Universal Remote on a Raspberry Pi
 
 ## Google Home Integration
