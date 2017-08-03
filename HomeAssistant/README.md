@@ -28,6 +28,7 @@ $ ./certbot-auto certonly --standalone \
 * Home Assistant config files then need to reference these files.
 
 **Refer to the [HomeAssistant SSL Certificate](https://home-assistant.io/blog/2015/12/13/setup-encryption-using-lets-encrypt/) for more information on the setup of the certificate. It explains in more detail each of the steps above.**
+**The [Lets Encrypt](https://letsencrypt.org/getting-started/) website also has good information on the approach and what to do.**
 
 ### Renewing Certificate
 The certificate only lasts three months and then it needs to be renewed. This is a simple process. One specific thing to remember: as much as now port 443 is now forwarded to 8123 and port 80 is no longer used, for the renewal the **certbot-auto** program still needs to be visible on port 80.
