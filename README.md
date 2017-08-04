@@ -47,5 +47,12 @@ The [Micropython website](https://micropython.org) is a good source of informati
 This is a simple python script that uses the linux program [UPSC](https://linux.die.net/man/8/upsc) to query a UPS. The UPS provides a wealth of information on the state of the mains power in your home/office. I extract the data that I want using standard regular expressions in python. I then use the [Paho MQTT](https://pypi.python.org/pypi/paho-mqtt/1.1) module to publish this status to the MQTT broker.
 
 ### Universal Remote on a Raspberry Pi
+The idea here is to be able to control the TV, DVD Player and AV Receiver via Home Assistant. This involved using:
+* A Raspberry Pi
+* Circuit of my own construction for the IR
+* Circuit of my own construction to learn the commands.
+* Python script on the Raspberry Pi to receive the MQTT messages and act on them.
+
+**Refer to the [Universal Remote](https://github.com/haemishkyd/KydHome/tree/master/Universal%20Remote) section for more information on the setup and implmenentation of this.**
 
 ## Google Home Integration
