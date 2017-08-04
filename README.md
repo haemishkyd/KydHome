@@ -9,11 +9,12 @@ This is a project based around [Home Assitant](https://home-assistant.io/), ESP8
 * Monitor the voltage of a bank of solar charged batteries
 ### Overview Diagram
 ![KydHome Overview](/Doc/kydhome_img/overview.png)
-* Arrows: The commmunications backbone of the system is MQTT.
+* Black Arrows: The commmunications backbone of the system is MQTT.
+* Blue Arrows: SSL Encrypted internet communications to the system.
 * Yellow: ESP8266 Modules - Embedded C
 * Purple: ESP8266 Module  - Micropython
 * Green: Python scripts running on Raspberry Pi or PC
-* 
+
 ## Home Assistant 
 Home Assistant is the main interface to the system as currently implemented. I am using the base installation and all that is configured as part of this project is the configuration file. Features that are currently used:
 * MQTT Publish/Subscribe
