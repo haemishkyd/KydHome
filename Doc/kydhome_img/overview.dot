@@ -5,14 +5,15 @@ digraph G {
 "Outside Temperature" [style=filled, fillcolor=yellow];
 subgraph cluster_Gate_ESP {
 label="Gate ESP";
-"Gate Light" [style=filled, fillcolor=orange];
-"Gate Control" [style=filled, fillcolor=orange];
+"Gate Light" [style=filled, fillcolor=yellow];
+"Gate Control" [style=filled, fillcolor=yellow];
 }
 
 "UPS Power Monitor" [style=filled, fillcolor=green];
 "Solar Battery Monitor" [style=filled, fillcolor=purple];
 "The Internet" [style=filled, fillcolor=white];
 "Universal Remote" [style=filled, fillcolor=green];
+edge [color=black, arrowhead=vee, weight=0];
 "Mosquitto MQTT Broker" -> "Home Assistant";
 "Home Assistant" -> "Mosquitto MQTT Broker";
 "Mosquitto MQTT Broker" -> "Outside Light";
@@ -23,7 +24,9 @@ label="Gate ESP";
 "Mosquitto MQTT Broker" -> "Gate Light";
 "Gate Light" -> "Mosquitto MQTT Broker";
 "Mosquitto MQTT Broker" -> "Gate Control";
+edge [color=blue, arrowhead=vee, weight=0];
 "The Internet" -> "Home Assistant";
 "Home Assistant" -> "The Internet";
+edge [color=black, arrowhead=vee, weight=0];
 "Mosquitto MQTT Broker" -> "Universal Remote";
 }

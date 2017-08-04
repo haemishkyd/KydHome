@@ -21,8 +21,8 @@ node_d = pydot.Node("Outside Temperature", style="filled", fillcolor="yellow")
 # node_ef = pydot.Node("Gate", style="filled", fillcolor="yellow")
 
 
-node_e = pydot.Node("Gate Light", style="filled", fillcolor="orange")
-node_f = pydot.Node("Gate Control", style="filled", fillcolor="orange")
+node_e = pydot.Node("Gate Light", style="filled", fillcolor="yellow")
+node_f = pydot.Node("Gate Control", style="filled", fillcolor="yellow")
 
 # Python
 node_g = pydot.Node("UPS Power Monitor", style="filled", fillcolor="green")
@@ -57,7 +57,7 @@ graph.add_node(node_i)
 
 graph.add_node(node_j)
 
-# Home assistant subscribes and publishes
+graph.set_edge_defaults(color="black", arrowhead="vee", weight="0")
 graph.add_edge(pydot.Edge(node_a, node_b))
 graph.add_edge(pydot.Edge(node_b, node_a))
 
@@ -75,9 +75,11 @@ graph.add_edge(pydot.Edge(node_e, node_a))
 
 graph.add_edge(pydot.Edge(node_a, node_f))
 
+graph.set_edge_defaults(color="blue", arrowhead="vee", weight="0")
 graph.add_edge(pydot.Edge(node_i, node_b))
 graph.add_edge(pydot.Edge(node_b, node_i))
 
+graph.set_edge_defaults(color="black", arrowhead="vee", weight="0")
 graph.add_edge(pydot.Edge(node_a, node_j))
 
 graph.write_raw('kydhome_img/overview.dot')
