@@ -29,7 +29,7 @@ Home Assistant is the main interface to the system as currently implemented. I a
 * Notifications through push bullet
 * REST API interface from IFTTT 
 
-**Refer to the [HomeAssistant](https://github.com/haemishkyd/KydHome/tree/master/HomeAssistant) for more information on the setup of Home Assistant.**
+**Refer to the [HomeAssistant](https://github.com/haemishkyd/KydHome/tree/master/HomeAssistant) section for more information on the setup of Home Assistant.**
 
 ## ESP8266
 ### Embdedded C on an ESP8266
