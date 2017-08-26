@@ -14,7 +14,7 @@ There are four type of functionality built into the same code base for the embed
 * Alarm System Interface (Paradox alarm system)
 
 ## Hardware Description
-For all of these I have used a basic breakout hardware platform that allows for a traic controlled switch, power regulation and basic IO breakout. The implementations below are based on this and supporting hardware has been added as/if required. See [this](https://github.com/haemishkyd/KydHome/blob/master/Doc/ESP-Switch-Board.pdf) document for a description of this base hardware.
+For all of these I have used a basic breakout hardware platform that allows for a triac controlled switch, power regulation and basic IO breakout. The implementations below are based on this and supporting hardware has been added as/if required. See [this](https://github.com/haemishkyd/KydHome/blob/master/Doc/ESP-Switch-Board.pdf) document for a description of this base hardware.
 ### AC Switch
 
 ### Temperature Sensor
