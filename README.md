@@ -15,6 +15,13 @@ This is a project based around [Home Assitant](https://home-assistant.io/), ESP8
 * Purple: ESP8266 Module  - Micropython
 * Green: Python scripts running on Raspberry Pi or PC
 
+## Communications Backbone
+The communications backbone of the system is MQTT. A good description of MQTT is given [here](https://www.ibm.com/developerworks/mydeveloperworks/blogs/aimsupport/entry/what_is_mqtt_and_how_does_it_work_with_websphere_mq?lang=en)
+The basic premise is that the central authority (the Mosquitto broker in my case) is the mailbox for all data exchange. Devices will subscrive to topics they consider useful. Othe devices subscribe to those topics. This way anyway interested in the topic "main_house/front_porch/temperature" can subscrive to it. The front porch temperature sensor then publishes to this topic by sending it to the broker. The broker then passes this message on to the various subsribers.
+
+As mentioned this system uses a Mosquitto MQTT broker which requires **NO** setup and can be used immediately after install.
+The various topics can be found in the configuration files (yaml) of the Home Assistant section. 
+
 ## Home Assistant 
 Home Assistant is the main interface to the system as currently implemented. I am using the base installation and all that is configured as part of this project is the configuration file. Features that are currently used:
 * MQTT Publish/Subscribe
@@ -23,8 +30,6 @@ Home Assistant is the main interface to the system as currently implemented. I a
 * REST API interface from IFTTT 
 
 **Refer to the [HomeAssistant](https://github.com/haemishkyd/KydHome/tree/master/HomeAssistant) for more information on the setup of Home Assistant.**
-
-## MQTT
 
 ## ESP8266
 ### Embdedded C on an ESP8266
