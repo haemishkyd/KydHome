@@ -100,3 +100,15 @@
         arg: /
       - type: since_last_boot
       - type: processor_use
+
+  - platform: coinmarketcap
+    name: "Ethereum"
+    currency: 'ethereum'
+
+  - platform: coinmarketcap
+    name: "Bitcoin"
+    currency: 'bitcoin'
+
+  - platform: coinmarketcap
+    name: "Bitcoin Cash"
+    currency: 'bitcoin-cash'

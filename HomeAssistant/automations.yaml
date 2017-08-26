@@ -4,7 +4,7 @@
   trigger:
     platform: state
     entity_id: alarm_control_panel.armed_status 
-    state: 'armed_away'   
+    to: 'armed_away'   
   action:
     service: notify.alarmstatusnotifier
     data:
@@ -17,7 +17,7 @@
   trigger:
     platform: state
     entity_id: alarm_control_panel.armed_status 
-    state: 'disarmed'   
+    to: 'disarmed'   
   action:
     service: notify.alarmstatusnotifier
     data:
@@ -30,7 +30,7 @@
   trigger:
     platform: state
     entity_id: sensor.alarm_cottage_entrance
-    state: '1'   
+    to: '1'   
   action:
     service: notify.alarmstatusnotifier
     data:
@@ -43,7 +43,7 @@
   trigger:
     platform: state
     entity_id: sensor.alarm_front_garden
-    state: '1'   
+    to: '1'   
   action:
     service: notify.alarmstatusnotifier
     data:
@@ -56,7 +56,7 @@
   trigger:
     platform: state
     entity_id: sensor.alarm_back_garden
-    state: '1'   
+    to: '1'   
   action:
     service: notify.alarmstatusnotifier
     data:
@@ -69,7 +69,7 @@
   trigger:
     platform: state
     entity_id: sensor.power_status 
-    state: 'PF'   
+    to: 'PF'   
   action:
     service: notify.alarmstatusnotifier
     data:
@@ -82,7 +82,7 @@
   trigger:
     platform: state
     entity_id: sensor.power_status 
-    state: 'PG'   
+    to: 'PG'   
   action:
     service: notify.alarmstatusnotifier
     data:

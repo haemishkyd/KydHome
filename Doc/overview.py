@@ -36,8 +36,10 @@ node_i = pydot.Node("The Internet",
                     style="filled", fillcolor="white")
 
 # Universal Remote Control
-node_j = pydot.Node("Universal Remote",
-                    style="filled", fillcolor="green")
+node_j = pydot.Node("Universal Remote", style="filled", fillcolor="green")
+
+# Alarm system interface
+node_k = pydot.Node("Paradox Alarm Interface", style="filled", fillcolor="yellow")
 
 # now we add the nodes to the graph
 graph.add_node(node_a)
@@ -57,6 +59,8 @@ graph.add_node(node_i)
 
 graph.add_node(node_j)
 
+graph.add_node(node_k)
+
 graph.set_edge_defaults(color="black", arrowhead="vee", weight="0")
 graph.add_edge(pydot.Edge(node_a, node_b))
 graph.add_edge(pydot.Edge(node_b, node_a))
@@ -74,6 +78,8 @@ graph.add_edge(pydot.Edge(node_a, node_e))
 graph.add_edge(pydot.Edge(node_e, node_a))
 
 graph.add_edge(pydot.Edge(node_a, node_f))
+
+graph.add_edge(pydot.Edge(node_k, node_a))
 
 graph.set_edge_defaults(color="blue", arrowhead="vee", weight="0")
 graph.add_edge(pydot.Edge(node_i, node_b))

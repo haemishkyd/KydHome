@@ -7,8 +7,9 @@
       - alarm_control_panel.armed_status
       - sensor.power_status
       - sensor.gate_light
-      - sensor.front_outside_light
+      - sensor.front_outside_light      
       - group.main_switches_grp
+      - group.crypto_grp
   alarm_view:
     view: yes
     name: Alarm
@@ -32,10 +33,11 @@
     name: Diagnostics
     entities:
       - group.diagnostics_grp
-      - group.pine_diag_grp
+      - group.hardware_diag_grp
   ####Groups
   entertainment_centre_group:
     name: Entertainment Centre
+    control: hidden
     entities:
       - switch.entertainment_system_power   
       - switch.entertainment_system_on_sat_off_dvd
@@ -46,6 +48,7 @@
       - media_player.living_room_home
       - media_player.kydchromecast
       - media_player.bedroom
+      - media_player.plex_web_chrome
   enviro_grp:
     name: YR Data
     entities:
@@ -93,7 +96,7 @@
       - sensor.total_mqtt_messages_sent
       - sensor.mqtt_connections
       - sensor.mosquitto_uptime
-  pine_diag_grp:
+  hardware_diag_grp:
     name: Hardware Diagnostics
     control: hidden
     entities:
@@ -101,3 +104,10 @@
       - sensor.disk_use_
       - sensor.cpu_use
       - sensor.since_last_boot 
+  crypto_grp:
+    name: Crypto Currencies
+    control: hidden
+    entities:
+      - sensor.ethereum
+      - sensor.bitcoin
+      - sensor.bitcoin_cash

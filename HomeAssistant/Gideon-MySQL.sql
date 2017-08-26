@@ -7,8 +7,8 @@ select state,last_updated from homeassistant.states where entity_id='sensor.fron
 select state,last_updated from homeassistant.states where entity_id='sensor.solar_battery_voltage' and state = 'unknown'; 
 
 --delete the "unknown" data
-delete from homeassistant.states where entity_id='sensor.solar_battery_voltage'  and state = 'unknown'; 
 delete from homeassistant.states where  entity_id='sensor.front_outside_temperature' and state = 'unknown';
+delete from homeassistant.states where entity_id='sensor.solar_battery_voltage'  and state = 'unknown'; 
 
 --MySQL Front Outside Temperature Last Week
 select cast(state as UNSIGNED),last_updated from homeassistant.states where entity_id='sensor.front_outside_temperature'
