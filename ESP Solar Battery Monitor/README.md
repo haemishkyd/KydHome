@@ -7,6 +7,8 @@ In this instance we have loaded the Micropython firmware onto an ESP8266 (specif
 # Loading the Firmware
 The ESP firmware needs to be loaded using a serial load tool. The tool I used was esptool which is available as a pypi package. This can be installed using *pip install esptool*
 This is a good resource to find out how to use *esptool.py*.
+Micropython by default includes many modules to interface with the hardware but also to simply do common things. 
+This system use the MQTT implementation as well as the ADC interface.
 
 # Basics
 Micropython looks for two files at startup. It first looks for *boot.py* and then for *main.py*.
