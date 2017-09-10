@@ -29,7 +29,10 @@ For all of these I have used a basic breakout hardware platform that allows for 
 ### Temperature Sensor
 
 ### Gate Control
-
+The gate control uses basic IO. There is nothing other than GPIO manipulation (and of course the MQTT interface).
+Setting and getting GPIO on the ESP can be a bit confusing. A good place to start is making sure you understand the multiplexed pins and what each can do.
+The diagram below gives a basic idea of some of the pins:
+![ESP GPIO Layout](https://github.com/haemishkyd/KydHome/blob/master/Doc/1.png)
 ### Alarm System Interface
 The Paradox alarm system outputs a serial message whenever an event occurrs in the system. Events include arming and disarming of alarm, activation of PIR sensors, the alarm going off etc. The protocol description is given in the picture below.
 ![Paradox Serial](https://github.com/haemishkyd/KydHome/blob/master/Doc/kydhome_img/paradox_serial.png)
