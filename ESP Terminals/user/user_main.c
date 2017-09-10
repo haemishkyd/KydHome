@@ -33,6 +33,8 @@ static void user_procTask(os_event_t *events);
 static void connect_wifi();
 static void connect_mqtt();
 void wifi_handle_event_cb(System_Event_t *evt);
+static void ICACHE_FLASH_ATTR my_delay_us(uint16_t delay_us);
+static inline unsigned ICACHE_FLASH_ATTR get_ccount(void);
 
 static void ICACHE_FLASH_ATTR mqttConnectedCb(uint32_t *args);
 static void ICACHE_FLASH_ATTR mqttDisconnectedCb(uint32_t *args);
@@ -46,7 +48,8 @@ Description:
 void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
 {
   static uint8_t state_machine = 0;
-  static uint16_t event_timer = 0;
+  static uint16_t outside_temp_timer = 0;
+  static uint16_t two_sec_timer = 0;
   uint8_t ret_val;
 #if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
   uint8_t led_flag;
@@ -60,7 +63,8 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
   switch (state_machine)
   {
   case 0:
-    event_timer++;
+    outside_temp_timer++;
+    two_sec_timer++;
     /* This 100 relates to 2 seconds since this function executes every 20ms */
 #if HOME_AUTOMATION_ALARM_INTERFACE == 'Y'
     /* Check the message that comes in from the alarm */
@@ -85,16 +89,17 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
 #endif
 #if HOME_AUTOMATION_OUTSIDE_TEMP == 'Y'
     /* This 500 relates to 10 seconds since this function executes every 20ms */
-    if (event_timer > 500)
+    if (outside_temp_timer > 500)
     {
-      event_timer = 0;
+      outside_temp_timer = 0;
       state_machine = 1;
     }
 #else    
-    if (event_timer > 100)
+    if (two_sec_timer > 100)
     {
-      event_timer = 0;
+      two_sec_timer = 0;
 #if HOME_AUTOMATION_GATE == 'Y'
+      /* gate light state */
       strcpy(mqtt_message, "{\"state\":\"");
       input_get = GPIO_INPUT_GET(5);
       if (input_get == 0)
@@ -115,6 +120,33 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
         mqtt_message_length = 15;
       }
       MQTT_Publish(&mqttClient, "homeassistant/sensor/gatelight/state", mqtt_message, mqtt_message_length, 0, 0);
+      /* gate open/close state */
+      strcpy(mqtt_message, "{\"state\":\"");
+      gpio_output_set(0, MY_GATE_READ_PIN, MY_GATE_READ_PIN, 0);
+      my_delay_us(8);
+      gpio_output_set(0, 0, 0, MY_GATE_READ_PIN);
+      my_delay_us(4);
+      input_get = ((gpio_input_get()&MY_GATE_READ_PIN)==MY_GATE_READ_PIN)?1:0;
+      if (input_get == 0)
+      {
+        //os_printf("Gate low\n");
+        mqtt_message[10] = 'O';
+        mqtt_message[11] = 'N';
+        mqtt_message[12] = '\"';
+        mqtt_message[13] = '}';
+        mqtt_message_length = 14;
+      }
+      else
+      {
+        //os_printf("Gate high\n");
+        mqtt_message[10] = 'O';
+        mqtt_message[11] = 'F';
+        mqtt_message[12] = 'F';
+        mqtt_message[13] = '\"';
+        mqtt_message[14] = '}';
+        mqtt_message_length = 15;
+      }
+      MQTT_Publish(&mqttClient, "homeassistant/sensor/gateactual/state", mqtt_message, mqtt_message_length, 0, 0);
 #endif
 #if HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT == 'Y'
       strcpy(mqtt_message, "{\"state\":\"");
@@ -136,7 +168,7 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
         mqtt_message[14] = '}';
         mqtt_message_length = 15;
       }
-      MQTT_Publish(&mqttClient, "homeassistant/sensor/frontoutsidelight/state", mqtt_message, mqtt_message_length, 0, 0);
+      MQTT_Publish(&mqttClient, "homeassistant/sensor/frontoutsidelight/state", mqtt_message, mqtt_message_length, 0, 0);      
 #endif
     }
 #endif    
@@ -168,7 +200,8 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
     state_machine = 0;
     break;
   default:
-    event_timer = 0;
+    two_sec_timer = 0;
+    outside_temp_timer = 0;
     state_machine = 0;
     break;
   }
@@ -222,6 +255,9 @@ void ICACHE_FLASH_ATTR user_init()
   GPIO_OUTPUT_SET(4, 1);
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO5_U, FUNC_GPIO5);
   GPIO_OUTPUT_SET(5, 1);
+  PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTCK_U, FUNC_GPIO13);
+  PIN_PULLUP_EN(PERIPHS_IO_MUX_MTCK_U);
+  GPIO_OUTPUT_SET(13, 1);  
 #endif
 #if HOME_AUTOMATION_OUTSIDE_TEMP == 'Y'
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO4_U, FUNC_GPIO4);
@@ -407,4 +443,20 @@ static void ICACHE_FLASH_ATTR mqttDataCb(uint32_t *args, const char* topic, uint
   MQTT_Parse_Topic(topicBuf, dataBuf);
   os_free(topicBuf);
   os_free(dataBuf);
+}
+
+static void ICACHE_FLASH_ATTR my_delay_us(uint16_t delay_us)
+{
+  unsigned current_time;
+
+  current_time = get_ccount();
+  while((get_ccount() - current_time) < (delay_us*80))
+  {}
+}
+
+static inline unsigned ICACHE_FLASH_ATTR get_ccount(void)
+{
+        unsigned r;
+        asm volatile ("rsr %0, ccount" : "=r"(r));
+        return r;
 }

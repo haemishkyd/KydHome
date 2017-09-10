@@ -29,6 +29,11 @@
     value_template: '{{ value_json.state }}'
 
   - platform: mqtt
+    name: "Gate Open"
+    state_topic: "homeassistant/sensor/gateactual/state"
+    value_template: '{{ value_json.state }}'
+
+  - platform: mqtt
     name: "Front Outside Light"
     state_topic: "homeassistant/sensor/frontoutsidelight/state"
     value_template: '{{ value_json.state }}'  

@@ -21,8 +21,8 @@
 
 #define PROTOCOL_NAMEv31  /*MQTT version 3.1 compatible with Mosquitto v0.15*/
 
-#define HOME_AUTOMATION_GATE					'N'
-#define HOME_AUTOMATION_OUTSIDE_TEMP			'Y'
+#define HOME_AUTOMATION_GATE					'Y'
+#define HOME_AUTOMATION_OUTSIDE_TEMP			'N'
 #define HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT		'N'
 #define HOME_AUTOMATION_ALARM_INTERFACE			'N'
 

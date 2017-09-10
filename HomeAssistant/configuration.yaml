@@ -90,7 +90,23 @@ mqtt:
   broker: 192.168.1.54
 
 recorder:
-  purge_days: 10  
+  purge_days: 10
+  exclude:
+    entities:
+     - sensor.total_mqtt_messages_received
+     - sensor.total_mqtt_messages_sent
+     - sensor.mqtt_connections
+     - sensor.mosquitto_uptime
+     - sensor.certificate_expiry
+     - sensor.disk_use_
+     - sensor.cpu_use
+     - sensor.since_last_boot 
+     - sun.sun
+     - sensor.yr_humidity
+     - sensor.yr_precipitation
+     - sensor.yr_pressure
+     - sensor.yr_symbol
+     - sensor.yr_temperature
 
 notify:
   name: alarmstatusnotifier
