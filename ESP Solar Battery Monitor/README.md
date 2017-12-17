@@ -25,3 +25,4 @@ This example code will switch on a given pin (in this case pin 0).
 
 # Upload of Python Scripts
 Micropython (the firmware) creates a small file system in the flash that *boot.py* and *main.py* are kept. To upload files to this file system the WebRepl could be used. The alternative is to use third party programs that upload the files to the file system.
+This [https://learn.adafruit.com/micropython-basics-how-to-load-micropython-on-a-board/serial-terminal?view=all#serial-terminal](page) explains how to get files onto the ESP8266.
