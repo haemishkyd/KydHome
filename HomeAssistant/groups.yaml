@@ -3,14 +3,9 @@
     view: yes
     entities:
       - sun.sun
-      - sensor.front_outside_temperature
-      - alarm_control_panel.armed_status
-      - sensor.power_status
-      - sensor.gate_light
-      - sensor.front_outside_light 
-      - sensor.gate_open     
+      - sensor.front_outside_temperature             
       - group.main_switches_grp
-      - group.crypto_grp
+      - group.main_status_grp
   alarm_view:
     view: yes
     name: Alarm
@@ -88,7 +83,16 @@
     entities:
       - switch.front_outside_light
       - switch.gate_light
-      - switch.gate_actual
+      - switch.gate_actual      
+  main_status_grp:
+    name: Main Statuses
+    control: hidden
+    entities:      
+      - alarm_control_panel.armed_status
+      - sensor.power_status_template
+      - sensor.gate_light
+      - sensor.front_outside_light
+      - sensor.gate_open_template
   diagnostics_grp:
     name: MQTT Diagnostics
     control: hidden
@@ -102,13 +106,6 @@
     control: hidden
     entities:
       - sensor.certificate_expiry
-      - sensor.disk_use_
-      - sensor.cpu_use
-      - sensor.since_last_boot 
-  crypto_grp:
-    name: Crypto Currencies
-    control: hidden
-    entities:
-      - sensor.ethereum
-      - sensor.bitcoin
-      - sensor.bitcoin_cash
+      - sensor.disk_used_
+      - sensor.cpu_used
+      - sensor.since_last_boot

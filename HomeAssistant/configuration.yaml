@@ -20,7 +20,12 @@ homeassistant:
     sensor.yr_pressure:
       friendly_name: Predicted Pressure
     sensor.yr_symbol:
-      friendly_name: Weather Symbol
+      friendly_name: Weather Symbol    
+    sensor.front_outside_light:
+      icon: 'mdi:lightbulb'
+    sensor.gate_light:
+      icon: 'mdi:lightbulb'
+
 
 automation: !include automations.yaml 
 # Show links to resources in log and frontend
@@ -34,8 +39,9 @@ config:
 
 http:
   api_password: !secret the_password
-  ssl_certificate: /etc/letsencrypt/live/kydhome.dyndns.org/fullchain.pem
-  ssl_key: /etc/letsencrypt/live/kydhome.dyndns.org/privkey.pem
+  base_url: https://kydhome.dyndns.org:8123
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
 
 # Checks for available updates
 updater:
@@ -50,6 +56,8 @@ logbook:
 
 # Track the sun
 sun:
+
+prometheus:
 
 # Weather Prediction
 sensor weather:
@@ -87,10 +95,12 @@ ifttt:
   key: dUhm_MDfeHCOw2yJROuiXh
 
 mqtt:
-  broker: 192.168.1.54
+  broker: 192.168.0.104
 
 recorder:
-  purge_days: 10
+  purge_interval: 1
+  purge_keep_days: 30
+  db_url: mysql://hass:empyrean69@127.0.0.1/homeassistant
   exclude:
     entities:
      - sensor.total_mqtt_messages_received
@@ -109,8 +119,8 @@ recorder:
      - sensor.yr_temperature
 
 notify:
-  name: alarmstatusnotifier
-  platform: pushbullet
-  api_key: o.RXa6SLEp5XVVrNVRGWFCIngie3h7PeMj
+  - name: alarmstatusnotifier
+    platform: pushbullet
+    api_key: o.RXa6SLEp5XVVrNVRGWFCIngie3h7PeMj
 
 group: !include groups.yaml

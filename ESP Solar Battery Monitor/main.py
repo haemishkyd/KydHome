@@ -7,7 +7,7 @@ R1 = 21.6
 R2 = 0.994
 
 CONFIG = {
-    "broker": "192.168.1.54",
+    "broker": "192.168.0.104",
     "client_id": "POWER MONITOR",
     "topic": "homeassistant/sensor/powersystem/solarbat",
 }

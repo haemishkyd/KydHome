@@ -1,11 +1,11 @@
 #define SSID "KYDHOME"
-#define SSID_PASSWORD "skattiepoo"
+#define SSID_PASSWORD "16883246"
 
 #define MQTT_SSL_ENABLE
 
 /*DEFAULT CONFIGURATIONS*/
 
-#define MQTT_HOST     	"192.168.1.54" //or "mqtt.yourdomain.com"
+#define MQTT_HOST     	"192.168.0.104" //or "mqtt.yourdomain.com"
 #define MQTT_PORT     	1883
 #define MQTT_BUF_SIZE   1024
 #define MQTT_KEEPALIVE  120  /*second*/
@@ -21,10 +21,10 @@
 
 #define PROTOCOL_NAMEv31  /*MQTT version 3.1 compatible with Mosquitto v0.15*/
 
-#define HOME_AUTOMATION_GATE					'Y'
+#define HOME_AUTOMATION_GATE					'N'
 #define HOME_AUTOMATION_OUTSIDE_TEMP			'N'
 #define HOME_AUTOMATION_FRONT_OUTSIDE_LIGHT		'N'
-#define HOME_AUTOMATION_ALARM_INTERFACE			'N'
+#define HOME_AUTOMATION_ALARM_INTERFACE			'Y'
 
 #if HOME_AUTOMATION_GATE == 'Y'
 	#define MQTT_CLIENT_ID    "MAIN GATE CONTROL"

@@ -16,7 +16,7 @@ def do_connect():
     print('network config:', sta_if.ifconfig())
     ap_if = network.WLAN(network.AP_IF)
     ap_if.active(True)
-    ap_if.config(essid='SolarMonESP')
+    ap_if.config(essid='OutsideTempESP')
 
 do_connect()
 webrepl.start()

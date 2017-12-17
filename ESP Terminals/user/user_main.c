@@ -207,6 +207,10 @@ void ICACHE_FLASH_ATTR some_timerfunc(void *arg)
   }
 }
 
+/**********************************************************************
+Function:       esp_itoa
+Description:
+**********************************************************************/
 char *esp_itoa (int value, char *result, int base)
 {
   // check that the base if valid

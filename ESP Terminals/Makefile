@@ -25,7 +25,7 @@ SDK_BASE	?= /home/haemish/Tools/esp-open-sdk/ESP8266_NONOS_SDK_V2.0.0_16_08_10
 
 # esptool.py path and port
 ESPTOOL		?= /home/haemish/Tools/esp-open-sdk/esptool/esptool.py
-ESPPORT		?= /dev/ttyUSB1
+ESPPORT		?= /dev/ttyUSB0
 
 # name for the target project
 TARGET		= app

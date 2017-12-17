@@ -1,6 +1,6 @@
 # This file is executed on every boot (including wake-boot from deepsleep)
-#import esp
-#esp.osdebug(None)
+import esp
+esp.osdebug(None)
 import gc
 import webrepl
 
@@ -16,7 +16,7 @@ def do_connect():
     print('network config:', sta_if.ifconfig())
     ap_if = network.WLAN(network.AP_IF)
     ap_if.active(True)
-    ap_if.config(essid='SolarMonESP')
+    ap_if.config(essid='GateESP')
 
 do_connect()
 webrepl.start()

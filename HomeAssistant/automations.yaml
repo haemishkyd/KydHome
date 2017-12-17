@@ -176,3 +176,29 @@
   action:
     service: homeassistant.turn_off
     entity_id: switch.front_outside_light
+
+- id: gateopennotifier
+  alias: 'Gate Open Notification'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: sensor.gate_open
+    to: 'ON'   
+  action:
+    service: mqtt.publish
+    data:
+      topic: "homeassistant/audio_prompt/message"
+      payload: "The gate is opening."
+
+- id: gateclosednotifier
+  alias: 'Gate Closed Notification'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: sensor.gate_open
+    to: 'OFF'   
+  action:
+    service: mqtt.publish
+    data:
+      topic: "homeassistant/audio_prompt/message"
+      payload: "The gate is closed."

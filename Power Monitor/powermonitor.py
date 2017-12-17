@@ -37,7 +37,7 @@ def logdiagdata(logstring):
     target_log.write(time_log_string+"\n\r")
 
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, rc):
+def on_connect(client, userdata, flags, rc):
     logdiagdata("Connected with result code "+str(rc))
     userdata.mqtt_connected = True
     # Subscribing in on_connect() means that if we lose the connection and
@@ -137,8 +137,13 @@ flush_counter = 0
 while True:            
     if p.mqtt_connected == False:
         logdiagdata("Connecting")
-        client.connect("192.168.1.54", 1883, 60)
-        client.loop_start()        
+        try:
+            client.connect("192.168.1.54", 1883, 60)
+            client.loop_start()
+        except:
+            logdiagdata("Broker not responding. Retrying in 10 seconds.")
+            p.flush()
+            time.sleep(10)
     # client.loop()
     runPowerQuery(client,p)
     flush_counter = flush_counter + 1

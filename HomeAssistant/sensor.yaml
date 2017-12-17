@@ -1,6 +1,23 @@
   - platform:  mqtt
     name: "Power Status"
-    state_topic: "homeassistant/sensor/powersystem/powerstatus"  
+    state_topic: "homeassistant/sensor/powersystem/powerstatus"
+
+  - platform: template
+    sensors:
+      power_status_template:       
+        friendly_name: "Power Status"
+        value_template: >-
+          {% if is_state('sensor.power_status','PG') %}
+            Power Fine
+          {% else %}
+            Power Failure
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.power_status','PG') %}
+            mdi:power-plug
+          {% else %}
+            mdi:power-plug-off
+          {% endif %}  
 
   - platform:  mqtt
     name: "Battery Level"
@@ -32,11 +49,28 @@
     name: "Gate Open"
     state_topic: "homeassistant/sensor/gateactual/state"
     value_template: '{{ value_json.state }}'
+    
+  - platform: template
+    sensors:
+      gate_open_template:       
+        friendly_name: "Gate"
+        value_template: >-
+          {% if is_state('sensor.gate_open','ON') %}
+            OPEN
+          {% else %}
+            CLOSED
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.gate_open','ON') %}
+            mdi:lock-open-outline
+          {% else %}
+            mdi:lock-outline
+          {% endif %}
 
   - platform: mqtt
     name: "Front Outside Light"
     state_topic: "homeassistant/sensor/frontoutsidelight/state"
-    value_template: '{{ value_json.state }}'  
+    value_template: '{{ value_json.state }}'      
 
   - platform: mqtt
     name: "Total MQTT Messages Received"
@@ -105,15 +139,3 @@
         arg: /
       - type: since_last_boot
       - type: processor_use
-
-  - platform: coinmarketcap
-    name: "Ethereum"
-    currency: 'ethereum'
-
-  - platform: coinmarketcap
-    name: "Bitcoin"
-    currency: 'bitcoin'
-
-  - platform: coinmarketcap
-    name: "Bitcoin Cash"
-    currency: 'bitcoin-cash'
